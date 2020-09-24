@@ -6,17 +6,37 @@ class RoutesGenerator(object):
 
     generated = False
 
-    def generate(self, group=False, nonce=False):
+    def generate(self, group=None, nonce=""):
         payload = Routes(group).to_json()
-        nonce = ''
 
+        # if already generated, only hydrate Ziggy.namedRoutes variable client-side
         if self.generated:
-            return self.generate_merge_js(payload, nonce)
+            return self._generate_merge_js(payload, nonce)
 
         self.generated = True
+        return self._generate_base_js(payload, nonce)
 
-        return Markup("<script type='text/javascript'{nonce}>var Ziggy = {payload};</script>".format(nonce, payload))
+    def _get_nonce_snippet(self, nonce):
+        return 'nonce="{0}"'.format(nonce) if nonce else ""
 
-    def generate_merge_js(json, nonce):
-        return Markup("<script type='text/javascript'{nonce}>var routes = {json}; for (let name in routes) {\n  Ziggy.namedRoutes[name] = routes[name];\n  }\n})();</script>".format(nonce, json))
+    def _generate_base_js(self, payload, nonce):
+        nonce_snippet = self._get_nonce_snippet(nonce)
+        return Markup(
+            "<script type='text/javascript'{0}>var Ziggy = {1};</script>".format(
+                nonce_snippet, payload
+            )
+        )
 
+    def _generate_merge_js(self, payload, nonce):
+        nonce_snippet = self._get_nonce_snippet(nonce)
+        snippet = [
+            "<script type='text/javascript'{0}>".format(nonce_snippet),
+            "   let routes = {0};".format(payload),
+            "   (function() {",
+            "       for (let name in routes) {",
+            "           Ziggy.namedRoutes[name] = routes[name];",
+            "       }",
+            "   })();",
+            "</script>",
+        ]
+        return Markup("\n".join(snippet))

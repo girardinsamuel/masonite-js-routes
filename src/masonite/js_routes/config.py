@@ -12,15 +12,15 @@
 |
 |
 """
-FILTERS = {
-    # "only": ["welcome.*"],
-    # "except": [],
-    "groups": {
-        "app": ["app"],
-        "welcome": ["welcome"],
-        "welcome_children": ["welcome.*"]
-    }
-}
+FILTERS = {"only": [], "except": [], "groups": {}}
+# FILTERS = {
+#     "only": ["home", "api.*"],
+#     "except": ["debugbar.*", "horizon.*", "admin.*"],
+#     "groups": {
+#         "admin": ["admin.*", "posts.*"],
+#         "author": ["posts.*"]
+#     }
+# }
 
 """
 |--------------------------------------------------------------------------

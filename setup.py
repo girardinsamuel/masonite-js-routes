@@ -9,8 +9,6 @@ setup(
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
-        "masonite.js_routes.controllers",
-        "masonite.js_routes.commands",
     ],
     package_dir={"": "src"},
     description="Masonite JS Routes",

@@ -1,12 +1,39 @@
 import json
+import re
 from urllib.parse import urlsplit
 from masonite.helpers import config
 from masonite.helpers.routes import flatten_routes
 
 
-class Routes(object):
+def match(route_name, f):
+    """Check if {route_name} matches {f}. wildcards can be used."""
+    if route_name == f:
+        return True
+    if ".*" in f:
+        if route_name.startswith(f[:-1]):
+            return True
+    return False
 
-    def __init__(self, group="", url=""):
+
+def convert_uri(uri):
+    """Convert routes defined as /users/@user to /users/{user} so
+    that Ziggy can process it client-side"""
+
+    # it should handle optional parameters
+    # TODO: difficult => /users/?param => /users or /users/@param
+    # check what can Ziggy supports
+    # but for no make parameter not optional !
+    uri = uri.replace("?", "@")
+    # remove typed param hint before further parsing
+    for hint in [":int", ":string"]:
+        if hint in uri:
+            uri = uri.replace(hint, "")
+
+    return re.sub(r"(@[\w]*)", r"{\1}", uri).replace("@", "")
+
+
+class Routes(object):
+    def __init__(self, group=None, url=""):
         self.base_domain = ""
         self.base_port = None
         self.base_protocol = "http"
@@ -16,70 +43,86 @@ class Routes(object):
         self.group = group
         self.routes = self.get_named_routes()
 
-    def _config(self, key):
+    def _config(self, key, default=False):
         """Get configuration key of the package more easily"""
-        return config("js_routes.{0}".format(key))
+        return config("js_routes.filters.{0}".format(key), default)
 
     def parse_base_url(self):
         url_object = urlsplit(self.base_url)
         self.base_protocol = url_object.scheme
-        self.base_domain, self.base_port = url_object.netloc.split(":")
+        domain_tokens = url_object.netloc.split(":")
+        if len(domain_tokens) > 1:
+            self.base_port = domain_tokens[1]
+        self.base_domain = domain_tokens[0]
 
     def get_named_routes(self):
         """Get a list of the application's named routes, keyed by their names."""
         from routes.web import ROUTES
-        routes = []
+
+        routes = {}
         for route in flatten_routes(ROUTES):
             if route.named_route:
-                routes.update({route.named_route: {"uri": route.route_url, "methods": []})
-                if self.is_in(route.named_route, "except"):
-                    self.append_route_to_list(route.named_route, "except")
-                elif self.is_in(route.named_route, "only"):
-                    self.append_route_to_list(route.named_route, "only")
-
-                # get routes methods and add other info if required
-        return self.routes
-
-    def is_in(self, route_name, filter_list):
-        return route_name in self._config(filter_list, [])
+                routes.update(
+                    {
+                        route.named_route: {
+                            "uri": convert_uri(route.route_url),
+                            "methods": route.method_type,
+                            "domain": route.required_domain,
+                        }
+                    }
+                )
+        return routes
 
     def apply_filters(self, group):
-        if (group):
-            return self.group(group)
+        if group:
+            return self.filter_by_groups(group)
 
         # return unfiltered routes if user set both config options.
-        if self._config('except') and self._config('only'):
+        if self._config("except") and self._config("only"):
             return self.routes
 
-        if self._config('except'):
+        if self._config("except"):
             return self.except_routes()
 
-        if self._config('only'):
+        if self._config("only"):
             return self.only_routes()
 
+        return self.routes
+
     def except_routes(self):
-        return self.filter(self._config("except", False))
+        return self.filter_routes(self._config("except"), False)
 
     def only_routes(self):
-        return self.filter(self._config("only"), False)
+        return self.filter_routes(self._config("only"))
 
-    def group(self, group):
+    def filter_by_groups(self, group):
         """Filters routes by group"""
-
-        if isinstance(group, dict):
+        groups = self._config("groups")
+        if isinstance(group, list):
             filters = []
-            for group_name, group_filters in self._config("groups"):
-                # filters = { **group_filters, **filters }
-                filters += group_filters
-                return self.filter(filters)
-
-        if self._config("groups.{0}".format(group)):
-            return self.filter(self._config("groups.{0}".format(group)))
-
-    def filter(self, filters, include=True):
-        """Filter routes by name using the given patterns."""
-        # TODO
+            for group_name in group:
+                filters += groups.get(group_name, [])
+            return self.filter_routes(filters)
+        else:
+            # @josephmancuso it should work config("js_routes.filters.groups.welcome")
+            groups = self._config("groups")
+            groups_filters = groups.get(group, [])
+            if groups_filters:
+                return self.filter_routes(groups_filters)
         return self.routes
+
+    def filter_routes(self, filters, include=True):
+        """Filter routes by name using the given patterns."""
+        if not isinstance(filters, list):
+            filters = list(filters)
+
+        def filter_func(route):
+            for f in filters:
+                if match(route[0], f):
+                    return include
+            return not include
+
+        return dict(filter(filter_func, self.routes.items()))
 
     def to_dict(self):
         return {
@@ -88,16 +131,9 @@ class Routes(object):
             "baseDomain": self.base_domain,
             "basePort": self.base_port,
             "defaultParameters": [],  # TODO ?
-            "namedRoutes": self.apply_filters(self.group)
+            "namedRoutes": self.apply_filters(self.group),
         }
 
     def to_json(self):
         """Convert this Routes instance to JSON."""
-        return json.dump(self.to_dict())
-
-
-def append_route_to_list(route, list):
-    """Append route to list in package configuration."""
-    # TODO
-    pass
-
+        return json.dumps(self.to_dict())
