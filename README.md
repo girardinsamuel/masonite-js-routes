@@ -5,10 +5,8 @@ Use your Masonite named routes in Javascript
 <p align="center">
 <img src="https://i.imgur.com/rEXcoMn.png" width="160px">
 </p>
-[![Tests](https://github.com/girardinsamuel/masonite-js-routes/workflows/Test%20Application/badge.svg?branch=master)](https://github.com/girardinsamuel/masonite-js-routes/actions?query=workflow%3A%22Test+Application%22)
-
+[![Test Application](https://github.com/girardinsamuel/masonite-js-routes/workflows/Test%20Application/badge.svg?branch=master)](https://github.com/girardinsamuel/masonite-js-routes/actions)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
 [![codecov](https://codecov.io/gh/girardinsamuel/masonite-js-routes/branch/master/graph/badge.svg)](https://codecov.io/gh/girardinsamuel/masonite-js-routes)
 
 <img src="https://img.shields.io/badge/python-3.5+-blue.svg" alt="Python Version">
