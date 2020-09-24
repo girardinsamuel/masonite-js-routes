@@ -9,12 +9,11 @@ Use your Masonite named routes in Javascript
 [![Test Application](https://github.com/girardinsamuel/masonite-js-routes/workflows/Test%20Application/badge.svg?branch=master)](https://github.com/girardinsamuel/masonite-js-routes/actions)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![codecov](https://codecov.io/gh/girardinsamuel/masonite-js-routes/branch/master/graph/badge.svg)](https://codecov.io/gh/girardinsamuel/masonite-js-routes)
-
 <img src="https://img.shields.io/badge/python-3.5+-blue.svg" alt="Python Version">
 
 This package creates a helper that you can include in your views. It will export a JavaScript object of your application's named routes, keyed by their names (aliases).
 
-You can combine it with [ziggy-js](#) library as to get a global `route()` helper function which you can use to access your routes in your JavaScript.
+You can combine it with [ziggy-js](https://github.com/tighten/ziggy) library as to get a global `route()` helper function which you can use to access your routes in your JavaScript.
 
 ## Learning Masonite
 
@@ -32,7 +31,7 @@ Add `JsRoutesProvider` to your app
 
 ```python
 # ...
-from masonite.js_routes import
+from masonite.js_routes import JsRoutesProvider
 PROVIDERS = [
   # ...
   # Third Party Applications
