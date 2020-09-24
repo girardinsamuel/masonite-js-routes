@@ -57,20 +57,24 @@ class Routes(object):
 
     def get_named_routes(self):
         """Get a list of the application's named routes, keyed by their names."""
-        from routes.web import ROUTES
-
+        from wsgi import container
+        web_routes = container.make("WebRoutes")
         routes = {}
-        for route in flatten_routes(ROUTES):
+        for route in flatten_routes(web_routes):
             if route.named_route:
                 routes.update(
                     {
                         route.named_route: {
                             "uri": convert_uri(route.route_url),
-                            "methods": route.method_type,
-                            "domain": route.required_domain,
+                            "methods": route.method_type
                         }
                     }
                 )
+                if route.required_domain:
+                    routes[route.named_route].update({"domain": route.required_domain})
+                if route.list_middleware:
+                    routes[route.named_route].update({"middleware": route.list_middleware})
+
         return routes
 
     def apply_filters(self, group):
