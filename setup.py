@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name="masonite-js-routes",
     # Versions should comply with PEP440.  For a discussion on single-sourcing
@@ -12,8 +15,9 @@ setup(
         "masonite.js_routes.commands",
     ],
     package_dir={"": "src"},
-    description="Masonite JS Routes",
-    long_description="Use your Masonite named routes in Javascript",
+    description="Use your Masonite named routes in Javascript",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     # The project's main homepage.
     url="https://github.com/girardinsamuel/masonite-js-routes",
     # Author details
@@ -67,7 +71,7 @@ setup(
     # $ pip install your-package[dev,test]
     extras_require={
         "test": ["coverage", "pytest", "pytest-cov", "coveralls"],
-        "dev": ["black", "flake8", "twine>=1.5.0"],
+        "dev": ["black", "flake8", "twine>=1.5.0", "wheel"],
     },
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
