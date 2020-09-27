@@ -2,6 +2,7 @@
 import os
 from masonite.provider import ServiceProvider
 from masonite.view import View
+from masonite.js_routes.commands.GenerateCommand import GenerateCommand
 
 from ..generator import RoutesGenerator
 
@@ -16,7 +17,7 @@ class JSRoutesProvider(ServiceProvider):
 
     def register(self):
         """Register objects into the Service Container."""
-        pass
+        self.app.bind("GenerateCommand", GenerateCommand())
 
     def boot(self, view: View):
         """Boots services required by the container."""

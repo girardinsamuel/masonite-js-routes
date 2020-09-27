@@ -79,7 +79,12 @@ python craft js_routes:install
 
 ## Usage
 
-In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
+1. [Using `routes` view helper](Opt1)
+2. [Generating routes as Javascript file](Opt2)
+
+### Using `routes` view helper [Opt1]
+
+1. In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
 
 ```html
 {{ routes() }}
@@ -132,6 +137,38 @@ or a list of group names
 ```
 
 **Note: Passing group names to the `routes` helper will always take precedence over your other only or except settings.**
+
+### Generating routes as Javascript file [Opt2]
+
+You can also generate once the routes as a Javascript file. For now it generates a file exporting
+`Ziggy` object routes as it is made to use it with `ziggy-js`.
+
+To generate the routes, run the craft command (it takes an optional `--path` argument to change the path):
+
+```
+$ python craft js_routes:generate
+```
+
+(You could add this into a pipeline, to regenerate it whenever needed).
+
+You will get a file like this:
+
+```js
+var Ziggy = {
+  namedRoutes: {
+    home: { uri: "/", methods: ["GET", "HEAD"], domain: null },
+    login: { uri: "login", methods: ["GET", "HEAD"], domain: null },
+  },
+  baseUrl: "http://ziggy.test/",
+  baseProtocol: "http",
+  baseDomain: "ziggy.test",
+  basePort: false,
+};
+
+export { Ziggy };
+```
+
+that you can use in your Vue components [more here](https://github.com/tighten/ziggy#using-with-vue-components).
 
 ## Content Security Policy
 
