@@ -73,16 +73,12 @@ python craft js_routes:install
 
 Then you should have a new `js_routes.py` config file in `config/`.
 
-```bash
-python craft js_routes:install
-```
-
 ## Usage
 
-1. [Using `routes` view helper](Opt1)
-2. [Generating routes as Javascript file](Opt2)
+1. [Using `routes` view helper](#1.-using-routes-view-helper)
+2. [Generating routes as Javascript file](#2.-generating-routes-as-javascript-file)
 
-### Using `routes` view helper [Opt1]
+### 1. Using `routes` view helper
 
 1. In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
 
@@ -90,7 +86,7 @@ python craft js_routes:install
 {{ routes() }}
 ```
 
-### Basic filtering
+#### Basic filtering
 
 Only the routes matching a list of name patterns will be included:
 
@@ -110,7 +106,7 @@ FILTERS = {
 
 **Note: You have to choose one or the other. Setting both `only` and `except` will disable filtering altogether and simply return the default list of routes.**
 
-### Filtering using Groups
+#### Filtering using Groups
 
 Only the routes matching a group or a list of groups will be included if
 groups are passed to the helpers
@@ -138,7 +134,7 @@ or a list of group names
 
 **Note: Passing group names to the `routes` helper will always take precedence over your other only or except settings.**
 
-### Generating routes as Javascript file [Opt2]
+### 2. Generating routes as Javascript file
 
 You can also generate once the routes as a Javascript file. For now it generates a file exporting
 `Ziggy` object routes as it is made to use it with `ziggy-js`.
@@ -146,7 +142,7 @@ You can also generate once the routes as a Javascript file. For now it generates
 To generate the routes, run the craft command (it takes an optional `--path` argument to change the path):
 
 ```
-$ python craft js_routes:generate
+python craft js_routes:generate
 ```
 
 (You could add this into a pipeline, to regenerate it whenever needed).
