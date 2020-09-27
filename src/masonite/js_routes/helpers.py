@@ -1,4 +1,6 @@
+"""Helpers to deal with strings"""
 import re
+# TODO: integrate this helper into Masonite core helpers !
 
 
 def matches(match_pattern, value):
@@ -18,13 +20,8 @@ def matches(match_pattern, value):
             return True
         if "*" not in pattern:
             continue
-        # replace users/* or users\* with users.*
-        # pattern.replace("\\", ".*")
-        # pattern.replace("/*", ".*")
-        # convert * matching into regex
+
         regex_pattern = r"^{0}".format(pattern.replace(".", r"\.").replace("*", ".*"))
-        # import pdb
-        # pdb.set_trace()
         if re.match(regex_pattern, value):
             return True
 
