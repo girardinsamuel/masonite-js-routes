@@ -1,0 +1,1 @@
+include src/masonite/js_routes/config/js_routes.py
