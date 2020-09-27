@@ -82,7 +82,7 @@ python craft js_routes:install
 In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
 
 ```html
-{{ js_routes() }}
+{{ routes() }}
 ```
 
 ### Basic filtering
@@ -122,13 +122,13 @@ FILTERS = {
 and in your view :
 
 ```html
-{{ js_routes('app') }}
+{{ routes('app') }}
 ```
 
 or a list of group names
 
 ```html
-{{ js_routes(['app', 'api']) }}
+{{ routes(['app', 'api']) }}
 ```
 
 **Note: Passing group names to the `routes` helper will always take precedence over your other only or except settings.**
