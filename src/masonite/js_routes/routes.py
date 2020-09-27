@@ -4,15 +4,7 @@ from urllib.parse import urlsplit
 from masonite.helpers import config
 from masonite.helpers.routes import flatten_routes
 
-
-def match(route_name, f):
-    """Check if {route_name} matches {f}. wildcards can be used."""
-    if route_name == f:
-        return True
-    if ".*" in f:
-        if route_name.startswith(f[:-1]):
-            return True
-    return False
+from .helpers import matches
 
 
 def convert_uri(uri):
@@ -118,11 +110,11 @@ class Routes(object):
     def filter_routes(self, filters, include=True):
         """Filter routes by name using the given patterns."""
         if not isinstance(filters, list):
-            filters = list(filters)
-
+            filters = [filters]
+        
         def filter_func(route):
             for f in filters:
-                if match(route[0], f):
+                if matches(f, route[0]):
                     return include
             return not include
 

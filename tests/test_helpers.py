@@ -3,7 +3,6 @@ from src.masonite.js_routes.helpers import matches
 
 
 class TestHelpers(TestCase):
-
     def setUp(self):
         super().setUp()
         pass
@@ -17,7 +16,7 @@ class TestHelpers(TestCase):
     def test_matches_exact_pattern(self):
         self.assertEqual(True, matches("api", "api"))
         self.assertEqual(True, matches(["api", "home"], "api"))
-    
+
     def test_no_matches_with_pattern(self):
         self.assertEqual(False, matches("home", "admin"))
         self.assertEqual(False, matches(["api", "home"], "admin"))
@@ -30,7 +29,7 @@ class TestHelpers(TestCase):
         self.assertEqual(True, matches("users.*", "users.show"))
         self.assertEqual(False, matches("users.*", "users"))
         self.assertEqual(True, matches("users.*", "users.index.comments"))
-        
+
         self.assertEqual(True, matches("users.s*", "users.store"))
         self.assertEqual(True, matches("users.s*", "users.show"))
 

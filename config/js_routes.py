@@ -12,15 +12,7 @@
 |
 |
 """
-FILTERS = {
-    # "only": ["welcome.*"],
-    # "except": [],
-    "groups": {
-        "app": ["app"],
-        "welcome": ["welcome"],
-        "welcome_children": ["welcome.*"]
-    }
-}
+FILTERS = {"only": [], "except": [], "groups": {}}
 
 """
 |--------------------------------------------------------------------------
