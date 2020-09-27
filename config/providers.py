@@ -16,7 +16,7 @@ from masonite.providers import (
     CacheProvider,
     CsrfProvider,
 )
-from masonite.js_routes import  JSRoutesProvider
+from masonite.js_routes import JSRoutesProvider
 
 """
 |--------------------------------------------------------------------------
@@ -40,7 +40,6 @@ PROVIDERS = [
     StatusCodeProvider,
     # WhitenoiseProvider,
     ViewProvider,
-
     # Optional Framework Providers
     # SassProvider,
     # MailProvider,
@@ -51,10 +50,7 @@ PROVIDERS = [
     # CacheProvider,
     CsrfProvider,
     # HelpersProvider,
-
     # Third Party Providers
     JSRoutesProvider,
-
     # Application Providers
-
 ]
