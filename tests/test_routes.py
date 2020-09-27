@@ -19,6 +19,22 @@ class TestRoutes(TestCase):
             Get('admin/users', 'tests.TestController@show').name('admin.users.index')
         ])
         self.buildOwnContainer()
+    
+    def test_basic_routes_generation(self):
+        js_routes = JsRoutes()
+        routes = js_routes.routes
+        expected = {
+            "home": {"uri": "/home", "methods": ["GET"]},
+            "posts.show": {"uri": "/posts/{post}", "methods": ["GET"]},
+            "posts.store": {"uri": "/posts", "methods": ["POST"]},
+            "posts.index": {"uri": "/posts", "methods": ["GET"]},
+            "postComments.index": {"uri": "/posts/{post}/comments", "methods": ["GET"]},
+            "postComments.show": {"uri": "/posts/{post}/comments/{comment}", "methods": ["GET"]},
+            "admin.users.index": {"uri": "/admin/users", "methods": ["GET"]},
+        }
+        import pdb
+        pdb.set_trace()
+        self.assertEqual(expected, routes)
 
     def test_can_filter_to_only_include_routes_matching_a_pattern(self):
         import pdb
