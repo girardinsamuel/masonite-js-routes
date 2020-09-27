@@ -9,6 +9,7 @@ setup(
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
+        "masonite.js_routes.commands",
     ],
     package_dir={"": "src"},
     description="Masonite JS Routes",
@@ -64,12 +65,15 @@ setup(
     # for example:
     # $ pip install -e .[dev,test]
     # $ pip install your-package[dev,test]
-    extras_require={"test": ["coverage", "pytest"], },
+    extras_require={
+        "test": ["coverage", "pytest", "pytest-cov", "coveralls"],
+        "dev": ["black", "flake8", "twine>=1.5.0"]
+    },
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'templates/index.html': [],
+        # 'templates/index.html': [],
     },
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:

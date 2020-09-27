@@ -1,1 +1,1 @@
-from .providers.JsRoutesProvider import JsRoutesProvider
+from .providers.JSRoutesProvider import JSRoutesProvider

@@ -1,25 +1,42 @@
 # Masonite JS Routes
 
-Use your Masonite named routes in Javascript
-
 <p align="center">
-<img src="https://i.imgur.com/rEXcoMn.png" width="160px">
+<img src="https://i.imgur.com/rEXcoMn.png" width="130px">
 </p>
 
-[![Test Application](https://github.com/girardinsamuel/masonite-js-routes/workflows/Test%20Application/badge.svg?branch=master)](https://github.com/girardinsamuel/masonite-js-routes/actions)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![codecov](https://codecov.io/gh/girardinsamuel/masonite-js-routes/branch/master/graph/badge.svg)](https://codecov.io/gh/girardinsamuel/masonite-js-routes)
-<img src="https://img.shields.io/badge/python-3.5+-blue.svg" alt="Python Version">
+<p align="center">
+  <a href="https://docs.masoniteproject.com">
+    <img alt="Masonite Package" src="https://img.shields.io/static/v1?label=Masonite&message=package&labelColor=grey&color=blue&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIRlWElmTU0AKgAAAAgABQESAAMAAAABAAEAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAIAAIdpAAQAAAABAAAAWgAAAAAAAABIAAAAAQAAAEgAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAA6gAwAEAAAAAQAAAA4AAAAATspU+QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAnxJREFUKBVNUl1IVEEUPjPObdd1VdxWM0rMIl3bzbVWLSofVm3th0AhMakHHyqRiNSHEAq5b2HSVvoQRUiEECQUQkkPbRslRGigG8auoon2oPSjpev+3PWeZq7eaC5nDt93vplz5txDQJYpNxX4st4JFiwj9aCqmswUFQNS/A2YskrZJPYefkECC2GhQwAqvLYybwXrwBvq8HSNOXRO92+aH7nW8vc/wS2Z9TqneYt2KHjlf9Iv+43wFJMExzO0YE5OKe60N+AOW6OmE+WJTBrg23jjzWxMBauOlfyycsV24F+cH+zAXYUOGl+DaiDxfl245/W9OnVrSY+O2eqPkyz4sVvHoKp9gOihf5KoAVv3hkQgbj/ihG9fI3RixKcUVx7lJVaEc0vnyf2FFll+ny80ZHZiGhIKowWJBCEAKr+FSuNDLt+lxybSF51lo74arqs113dOZqwsptxNs5bwi7Q3q8npSC2AWmvjTncZf1l61e5DEizNn5mtufpsqk5+CZTuq00sP1wkNPv8jeEikVVlJso+GEwRtNs3QeBt2YP2V2ZI3Tx0e+7T89zK5tNASOLEytJAryGtkLc2PcBM5byyUWYkMQpMioYcDcchC6xN220Iv36Ot8pV0454RHLEwmmD7UWfIdX0zq3GjMPG5NKBtv5qiPEPekK2U51j1451BZoc3i+1ohSQ/UzzG5uYFFn2mwVUnO4O3JblXA91T51l3pB3QweDl7sNXMyEjbguSjrPcQNmwDkNc8CbCvDd0+xCC7RFi9wFulD3mJeXqxQevB4prrqgc0TmQ85NG/K43e2UwnMVAJIEBNfWRYR3HfnvivrIzMyo4Hgy+hfscvLo53jItAAAAABJRU5ErkJggg==">
+  </a>
+  <img alt="GitHub Workflow Status (branch)" src="https://img.shields.io/github/workflow/status/girardinsamuel/masonite-js-routes/Test%20Application/master">
+  <img alt="Coveralls github branch" src="https://img.shields.io/coveralls/github/girardinsamuel/masonite-js-routes/master">
+  <img alt="PyPI" src="https://img.shields.io/pypi/v/masonite-js-routes">
+  <img src="https://img.shields.io/badge/python-3.6+-blue.svg" alt="Python Version">
+  <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/girardinsamuel/masonite-js-routes">
+  <img alt="License" src="https://img.shields.io/github/license/girardinsamuel/masonite-js-routes">
+  <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+</p>
+
+## Introduction
+
+Use your Masonite named routes in Javascript !
 
 This package creates a helper that you can include in your views. It will export a JavaScript object of your application's named routes, keyed by their names (aliases).
 
 You can combine it with [ziggy-js](https://github.com/tighten/ziggy) library as to get a global `route()` helper function which you can use to access your routes in your JavaScript.
 
-## Learning Masonite
+## Features
 
-Masonite strives to have extremely comprehensive documentation. All documentation can be [Found Here](https://masoniteframework.gitbooks.io/docs/content/) and would be wise to go through the tutorials there. If you find any discrepencies or anything that doesn't make sense, be sure to comment directly on the documentation to start a discussion!
+- _Add your package main features here_
+- _and here_
 
-Also be sure to join the [Slack channel](https://masoniteframework.gitbooks.io/docs/content/)!
+## Official Masonite Documentation
+
+New to Masonite ? Please first read the [Official Documentation](https://docs.masoniteproject.com/).
+Masonite strives to have extremely comprehensive documentation 😃. It would be wise to go through the tutorials there.
+If you find any discrepencies or anything that doesn't make sense, be sure to comment directly on the documentation to start a discussion!
+
+Also be sure to join the [Slack channel](http://slack.masoniteproject.com/)!
 
 ## Installation
 
@@ -27,28 +44,25 @@ Also be sure to join the [Slack channel](https://masoniteframework.gitbooks.io/d
 pip install masonite-js-routes
 ```
 
-Add `JsRoutesProvider` to your app
+## Configuration
+
+Add JSRoutesProvider to your project in `config/providers.py`:
 
 ```python
+# config/providers.py
 # ...
-from masonite.js_routes import JsRoutesProvider
+from masonite.js_routes import JSRoutesProvider
+
+# ...
 PROVIDERS = [
-  # ...
-  # Third Party Applications
-  JsRoutesProvider,
-  # ...
+    # ...
+
+    # Third Party Providers
+    JSRoutesProvider,
+
+    # ...
 ]
 ```
-
-## Usage
-
-In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
-
-```html
-{{ js_routes() }}
-```
-
-## Configuration
 
 You can skip this step if you don't want to filters routes included by the helper.
 Else you must publish the config file by running the command:
@@ -58,6 +72,18 @@ python craft js_routes:install
 ```
 
 Then you should have a new `js_routes.py` config file in `config/`.
+
+```bash
+python craft js_routes:install
+```
+
+## Usage
+
+In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
+
+```html
+{{ js_routes() }}
+```
 
 ### Basic filtering
 
@@ -115,6 +141,12 @@ A Content Security Policy may block unsafe inline scripts which Ziggy uses to pa
 {{ routes(false, '[YOUR_NONCE]') }}
 ```
 
-## How to contribute
+## Contributing
 
-Disclaimer: this package is based on the legacy Laravel package [Ziggy](https://github.com/tighten/ziggy).
+Please read the [Contributing Documentation](CONTRIBUTING.md) here.
+
+## License
+
+Masonite JS Routes is open-sourced software licensed under the [MIT license](LICENSE).
+
+**Disclaimer**: this package is based on the Laravel package [Ziggy](https://github.com/tighten/ziggy).
