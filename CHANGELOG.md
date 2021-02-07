@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve documentation in README
 - Add a CHANGELOG
 
+### Build system
+
+- Switch coverage to codecov.io
+- Add dependabot
+
 ### BREAKING CHANGES
 
 - The format of the payload included client-side won't be compatible with oldest `ziggy-js` versions,
