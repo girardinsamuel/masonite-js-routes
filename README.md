@@ -168,6 +168,7 @@ export { Ziggy };
 ## Client-side usage
 
 Then to be able to use it client-side you can refer to [ziggy-js documentation](https://github.com/tighten/ziggy#advanced-setup).
+(Note that you don't have to use this library you can use the routes objects as you like.)
 
 ### Quick explanation with Vue.js
 
@@ -184,7 +185,7 @@ Then in your Vue.js entrypoint you could for example define a global `route()` m
 ```javascript
 // app.js
 import { createApp, h } from "vue";
-import route from "ziggy-s";
+import route from "ziggy-js";
 
 import App from "./App.vue";
 
@@ -205,10 +206,13 @@ this.route("users", 2); // == http://ziggy.test/users/2
 
 ```javascript
 // app.js
+import { createApp, h } from "vue";
 import route from "ziggy-js";
 import { Ziggy } from "./routes";
 
-Vue.mixin({
+import App from "./App.vue";
+
+const app = createApp(App).mixin({
   methods: {
     route(name, params = {}, absolute = true) {
       return route(name, params, absolute, Ziggy);
