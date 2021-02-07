@@ -22,7 +22,6 @@ format: ## Format code with Black
 	black src/masonite/js_routes
 coverage: ## Run package tests and upload coverage reports
 	python -m pytest --cov-report term --cov-report xml --cov=src/masonite/js_routes tests
-	python -m coveralls
 publish: ## Publish package to pypi
 	python setup.py sdist bdist_wheel
 	twine upload dist/*
