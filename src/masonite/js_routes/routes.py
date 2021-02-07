@@ -3,33 +3,33 @@ import re
 from urllib.parse import urlsplit
 from masonite.helpers import config
 from masonite.helpers.routes import flatten_routes
-
+from masonite import env
 from .helpers import matches
 
 
 def convert_uri(uri):
-    """Convert routes defined as /users/@user to /users/{user} so
+    """Convert routes defined as /users/@user to users/{user} so
     that Ziggy can process it client-side"""
 
     # it should handle optional parameters
-    # TODO: difficult => /users/?param => /users or /users/@param
-    # check what can Ziggy supports
-    # but for no make parameter not optional !
     uri = uri.replace("?", "@")
     # remove typed param hint before further parsing
     for hint in [":int", ":string"]:
         if hint in uri:
             uri = uri.replace(hint, "")
-
-    return re.sub(r"(@[\w]*)", r"{\1}", uri).replace("@", "")
+    url = re.sub(r"(@[\w]*)", r"{\1}", uri).replace("@", "")
+    # remove leading slash already added by ziggy-js
+    if url.startswith("/"):
+        url = url[1:]
+    return url
 
 
 class Routes(object):
-    def __init__(self, group=None, url=""):
+    def __init__(self, group=None):
         self.base_domain = ""
         self.base_port = None
         self.base_protocol = "http"
-        self.base_url = url + "/" if not url.endswith("/") else url
+        self.base_url = env("APP_URL")
         self.parse_base_url()
 
         self.group = group
@@ -125,12 +125,10 @@ class Routes(object):
 
     def to_dict(self):
         return {
-            "baseUrl": self.base_url,
-            "baseProtocol": self.base_protocol,
-            "baseDomain": self.base_domain,
-            "basePort": self.base_port,
-            "defaultParameters": [],  # TODO ?
-            "namedRoutes": self.apply_filters(self.group),
+            "url": self.base_url,
+            "port": self.base_port,
+            "defaults": {},
+            "routes": self.apply_filters(self.group),
         }
 
     def to_json(self):

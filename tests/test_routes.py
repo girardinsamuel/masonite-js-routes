@@ -4,16 +4,16 @@ from src.masonite.js_routes.routes import Routes as JsRoutes
 
 
 all_expected_routes = {
-    "home": {"uri": "/home", "methods": ["GET"]},
-    "posts.show": {"uri": "/posts/{post}", "methods": ["GET"]},
-    "posts.store": {"uri": "/posts", "methods": ["POST"]},
-    "posts.index": {"uri": "/posts", "methods": ["GET"]},
-    "postComments.index": {"uri": "/posts/{post}/comments", "methods": ["GET"]},
+    "home": {"uri": "home", "methods": ["GET"]},
+    "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
+    "posts.store": {"uri": "posts", "methods": ["POST"]},
+    "posts.index": {"uri": "posts", "methods": ["GET"]},
+    "postComments.index": {"uri": "posts/{post}/comments", "methods": ["GET"]},
     "postComments.show": {
-        "uri": "/posts/{post}/comments/{comment}",
+        "uri": "posts/{post}/comments/{comment}",
         "methods": ["GET"],
     },
-    "admin.users.index": {"uri": "/admin/users", "methods": ["GET"]},
+    "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
 }
 
 
@@ -50,9 +50,9 @@ class TestRoutes(TestCase):
         js_routes = JsRoutes()
         routes = js_routes.filter_routes(["posts.s*", "home"])
         expected = {
-            "home": {"uri": "/home", "methods": ["GET"]},
-            "posts.show": {"uri": "/posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "/posts", "methods": ["POST"]},
+            "home": {"uri": "home", "methods": ["GET"]},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
+            "posts.store": {"uri": "posts", "methods": ["POST"]},
         }
         self.assertEqual(expected, routes)
 
@@ -60,10 +60,10 @@ class TestRoutes(TestCase):
         js_routes = JsRoutes()
         routes = js_routes.filter_routes(["posts.s*", "home", "admin.*"], False)
         expected = {
-            "posts.index": {"uri": "/posts", "methods": ["GET"]},
-            "postComments.index": {"uri": "/posts/{post}/comments", "methods": ["GET"]},
+            "posts.index": {"uri": "posts", "methods": ["GET"]},
+            "postComments.index": {"uri": "posts/{post}/comments", "methods": ["GET"]},
             "postComments.show": {
-                "uri": "/posts/{post}/comments/{comment}",
+                "uri": "posts/{post}/comments/{comment}",
                 "methods": ["GET"],
             },
         }
@@ -75,11 +75,11 @@ class TestRoutes(TestCase):
 
         FILTERS["except"] = []
         FILTERS["only"] = ["posts.s*", "home"]
-        routes = JsRoutes().to_dict()["namedRoutes"]
+        routes = JsRoutes().to_dict()["routes"]
         expected = {
-            "home": {"uri": "/home", "methods": ["GET"]},
-            "posts.show": {"uri": "/posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "/posts", "methods": ["POST"]},
+            "home": {"uri": "home", "methods": ["GET"]},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
+            "posts.store": {"uri": "posts", "methods": ["POST"]},
         }
         self.assertEqual(expected, routes)
 
@@ -88,15 +88,15 @@ class TestRoutes(TestCase):
 
         FILTERS["only"] = []
         FILTERS["except"] = ["posts.s*", "home"]
-        routes = JsRoutes().to_dict()["namedRoutes"]
+        routes = JsRoutes().to_dict()["routes"]
         expected = {
-            "posts.index": {"uri": "/posts", "methods": ["GET"]},
-            "postComments.index": {"uri": "/posts/{post}/comments", "methods": ["GET"]},
+            "posts.index": {"uri": "posts", "methods": ["GET"]},
+            "postComments.index": {"uri": "posts/{post}/comments", "methods": ["GET"]},
             "postComments.show": {
-                "uri": "/posts/{post}/comments/{comment}",
+                "uri": "posts/{post}/comments/{comment}",
                 "methods": ["GET"],
             },
-            "admin.users.index": {"uri": "/admin/users", "methods": ["GET"]},
+            "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
         }
         self.assertEqual(expected, routes)
 
@@ -106,17 +106,17 @@ class TestRoutes(TestCase):
         FILTERS["except"] = ["posts.s*", "home"]
         FILTERS["only"] = ["some.other.routes"]
 
-        routes = JsRoutes().to_dict()["namedRoutes"]
+        routes = JsRoutes().to_dict()["routes"]
         self.assertEqual(all_expected_routes, routes)
 
     def test_can_set_included_routes_using_groups_config(self):
         from config.js_routes import FILTERS
 
         FILTERS["groups"] = {"posts": ["posts.s*"]}
-        routes = JsRoutes("posts").to_dict()["namedRoutes"]
+        routes = JsRoutes("posts").to_dict()["routes"]
         expected = {
-            "posts.show": {"uri": "/posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "/posts", "methods": ["POST"]},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
+            "posts.store": {"uri": "posts", "methods": ["POST"]},
         }
         self.assertEqual(expected, routes)
 
@@ -124,11 +124,11 @@ class TestRoutes(TestCase):
         from config.js_routes import FILTERS
 
         FILTERS["groups"] = {"posts": ["posts.s*"], "admin": ["admin.*"]}
-        routes = JsRoutes(["posts", "admin"]).to_dict()["namedRoutes"]
+        routes = JsRoutes(["posts", "admin"]).to_dict()["routes"]
         expected = {
-            "posts.show": {"uri": "/posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "/posts", "methods": ["POST"]},
-            "admin.users.index": {"uri": "/admin/users", "methods": ["GET"]},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
+            "posts.store": {"uri": "posts", "methods": ["POST"]},
+            "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
         }
         self.assertEqual(expected, routes)
 
@@ -136,7 +136,7 @@ class TestRoutes(TestCase):
         from config.js_routes import FILTERS
 
         FILTERS["groups"] = {"posts": ["posts.s*"]}
-        routes = JsRoutes(["unknown_group"]).to_dict()["namedRoutes"]
+        routes = JsRoutes(["unknown_group"]).to_dict()["routes"]
         self.assertEqual(all_expected_routes, routes)
 
     def can_include_middleware(self):

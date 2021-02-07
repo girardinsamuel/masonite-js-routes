@@ -75,12 +75,12 @@ Then you should have a new `js_routes.py` config file in `config/`.
 
 ## Usage
 
-1. [Using `routes` view helper](#1.-using-routes-view-helper)
-2. [Generating routes as Javascript file](#2.-generating-routes-as-javascript-file)
+1. [Using `routes` view helper](#1.-using-routes-view-helper): routes will be generated at each request and included client-side in the page.
+2. [Generating routes as Javascript file](#2.-generating-routes-as-javascript-file): routes are generated once in a file and you load this file client-side. When you update your routes, you must regenerate the file.
 
 ### 1. Using `routes` view helper
 
-1. In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object:
+1. In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object (e.g. in `<head></head>` or at the end of body).
 
 ```html
 {{ routes() }}
@@ -141,7 +141,7 @@ You can also generate once the routes as a Javascript file. For now it generates
 
 To generate the routes, run the craft command (it takes an optional `--path` argument to change the path):
 
-```
+```bash
 python craft js_routes:generate
 ```
 
@@ -151,20 +151,66 @@ You will get a file like this:
 
 ```js
 var Ziggy = {
-  namedRoutes: {
-    home: { uri: "/", methods: ["GET", "HEAD"], domain: null },
+  routes: {
+    home: { uri: "", methods: ["GET", "HEAD"], domain: null },
     login: { uri: "login", methods: ["GET", "HEAD"], domain: null },
   },
-  baseUrl: "http://ziggy.test/",
-  baseProtocol: "http",
-  baseDomain: "ziggy.test",
-  basePort: false,
+  url: "http://ziggy.test/",
+  port: null,
+  defaults: {},
 };
 
 export { Ziggy };
 ```
 
-that you can use in your Vue components [more here](https://github.com/tighten/ziggy#using-with-vue-components).
+## Client-side usage
+
+Then to be able to use it client-side you can refer to [ziggy-js documentation](https://github.com/tighten/ziggy#advanced-setup).
+
+You can however find an example for the two approaches with Vue.js:
+
+- With the **option 1**, `Ziggy` will be available in the global javascript `window` scope. With Vue.js you could
+  for example define a global `route()` mixin (using the `route()` method from `ziggy-js`).
+
+```javascript
+// app.js
+import { createApp, h } from "vue";
+import route from "ziggy-s";
+
+import App from "./App.vue";
+
+const app = createApp(App).mixin({
+  methods: {
+    route(name, params = {}, absolute = true) {
+      return route(name, params, absolute, window.Ziggy);
+    },
+  },
+});
+
+// App.vue
+// ...
+this.route("users", 2); // == http://ziggy.test/users/2
+```
+
+- With the **option 2**, the routes config must be imported from the generated file (instead of the `window` object)
+
+```javascript
+// app.js
+import route from "ziggy-js";
+import { Ziggy } from "./routes";
+
+Vue.mixin({
+  methods: {
+    route(name, params = {}, absolute = true) {
+      return route(name, params, absolute, Ziggy);
+    },
+  },
+});
+
+// App.vue
+// ...
+this.route("users", 2); // == http://ziggy.test/users/2
+```
 
 ## Content Security Policy
 
