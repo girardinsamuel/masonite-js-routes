@@ -167,10 +167,17 @@ export { Ziggy };
 
 Then to be able to use it client-side you can refer to [ziggy-js documentation](https://github.com/tighten/ziggy#advanced-setup).
 
-You can however find an example for the two approaches with Vue.js:
+### Quick explanation with Vue.js
 
-- With the **option 1**, `Ziggy` will be available in the global javascript `window` scope. With Vue.js you could
-  for example define a global `route()` mixin (using the `route()` method from `ziggy-js`).
+Install the library (tested with `1.0.5`):
+
+```bash
+npm install ziggy-js@1.0.5
+```
+
+Then in your Vue.js entrypoint you could for example define a global `route()` mixin (using the `route()` method from `ziggy-js`).
+
+- With the **option 1**, `Ziggy` will be available in the global javascript `window` scope
 
 ```javascript
 // app.js
