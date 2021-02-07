@@ -10,7 +10,7 @@ init: ## Install package dependencies
 	# install package
 	pip install .
 	# install dev dependencies (see setup.py)
-	pip install masonite-js-routes[test,dev]
+	pip install "masonite-js-routes[test,dev]"
 test: ## Run package tests
 	python -m pytest tests
 ci: ## [CI] Run package tests and lint

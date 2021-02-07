@@ -3,9 +3,7 @@ from src.masonite.js_routes.helpers import matches
 
 
 class TestHelpers(TestCase):
-    def setUp(self):
-        super().setUp()
-        pass
+    sqlite = False
 
     def test_no_matches_when_no_pattern(self):
         self.assertEqual(False, matches(None, "api"))

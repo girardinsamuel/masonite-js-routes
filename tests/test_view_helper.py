@@ -20,6 +20,8 @@ all_expected_routes = {
 
 
 class TestViewHelper(TestCase):
+    sqlite = False
+
     def setUp(self):
         super().setUp()
         self.routes(

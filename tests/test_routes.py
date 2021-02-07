@@ -18,6 +18,8 @@ all_expected_routes = {
 
 
 class TestRoutes(TestCase):
+    sqlite = False
+
     def setUp(self):
         super().setUp()
         self.routes(
