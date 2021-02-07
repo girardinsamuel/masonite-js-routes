@@ -27,8 +27,10 @@ You can combine it with [ziggy-js](https://github.com/tighten/ziggy) library as 
 
 ## Features
 
-- _Add your package main features here_
-- _and here_
+- Avoid hard-coding urls client-side
+- Generate once your routes file
+- Compatible with client-side route helper `ziggy-js`
+- Possibility to filter routes to include client-side
 
 ## Official Masonite Documentation
 
