@@ -1,1 +1,1 @@
-from .providers.JSRoutesProvider import JSRoutesProvider
+from .providers.MasoniteJSRoutesProvider import MasoniteJSRoutesProvider

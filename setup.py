@@ -8,10 +8,11 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="1.0.0",
+    version="2.0.0",
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
+        "masonite.js_routes.controllers",
         "masonite.js_routes.commands",
     ],
     package_dir={"": "src"},
@@ -45,10 +46,10 @@ setup(
         "Operating System :: OS Independent",
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Internet :: WWW/HTTP :: WSGI",
@@ -56,13 +57,14 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     # What does your project relate to?
-    keywords="Masonite, Python, Emails, Debug, Development",
+    keywords="Masonite, Python, Development",
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        # 'pypi-package>=1.7.1,<1.8'
+        # TODO: uncomment when released
+        # "masonite>=4.0<5.0"
     ],
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -70,8 +72,16 @@ setup(
     # $ pip install -e .[dev,test]
     # $ pip install your-package[dev,test]
     extras_require={
-        "test": ["coverage", "pytest", "pytest-cov", "coveralls"],
-        "dev": ["black", "flake8", "twine>=1.5.0", "wheel"],
+        "dev": [
+            "black",
+            "flake8",
+            "coverage",
+            "pytest",
+            "pytest-cov",
+            "coveralls",
+            "twine>=1.5.0",
+            "wheel",
+        ],
     },
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
