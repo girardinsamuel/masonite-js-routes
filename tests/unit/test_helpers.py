@@ -1,4 +1,4 @@
-from masonite.testing import TestCase
+from masonite.tests import TestCase
 from src.masonite.js_routes.helpers import matches
 
 

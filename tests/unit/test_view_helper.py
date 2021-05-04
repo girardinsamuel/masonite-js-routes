@@ -1,5 +1,5 @@
-from masonite.testing import TestCase
-from masonite.routes import Get, Post
+from masonite.tests import TestCase
+from masonite.routes import Route
 from jinja2 import Markup
 
 from src.masonite.js_routes.generator import RoutesGenerator
@@ -24,24 +24,19 @@ class TestViewHelper(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.routes(
-            only=[
-                Get("home", "tests.TestController@show").name("home"),
-                Get("posts", "tests.TestController@show").name("posts.index"),
-                Get("posts/@post", "tests.TestController@show").name("posts.show"),
-                Get("posts/@post/comments", "tests.TestController@show").name(
-                    "postComments.index"
-                ),
-                Get(
-                    "posts/@post/comments/@comment:int", "tests.TestController@show"
-                ).name("postComments.show"),
-                Post("posts", "tests.TestController@show").name("posts.store"),
-                Get("admin/users", "tests.TestController@show").name(
-                    "admin.users.index"
-                ),
-            ]
+        self.setRoutes(
+            Route.get("home", "TestController@show").name("home"),
+            Route.get("posts", "TestController@show").name("posts.index"),
+            Route.get("posts/@post", "TestController@show").name("posts.show"),
+            Route.get("posts/@post/comments", "TestController@show").name(
+                "postComments.index"
+            ),
+            Route.get("posts/@post/comments/@comment:int", "TestController@show").name(
+                "postComments.show"
+            ),
+            Route.post("posts", "TestController@show").name("posts.store"),
+            Route.get("admin/users", "TestController@show").name("admin.users.index"),
         )
-        self.buildOwnContainer()
 
     def test_generator_without_filters(self):
         generator = RoutesGenerator()

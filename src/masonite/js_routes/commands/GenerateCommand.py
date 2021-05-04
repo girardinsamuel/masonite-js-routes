@@ -1,6 +1,6 @@
 """A GenerateCommand Command."""
 from cleo import Command
-from masonite.js_routes.generator import RoutesGenerator
+from ..generator import RoutesGenerator
 
 
 class GenerateCommand(Command):
