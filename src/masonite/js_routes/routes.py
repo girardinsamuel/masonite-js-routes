@@ -30,7 +30,7 @@ class Routes(object):
         self.base_domain = ""
         self.base_port = None
         self.base_protocol = "http"
-        self.base_url = os.getenv("APP_URL")
+        self.base_url = os.getenv("APP_URL").rstrip("/")
         self.parse_base_url()
 
         self.group = group

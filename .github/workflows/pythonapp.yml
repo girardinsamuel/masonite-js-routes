@@ -65,5 +65,5 @@ jobs:
           pip install .
       - name: Run integration test
         env:
-          APP_URL: https://ziggy.dev/
+          APP_URL: https://ziggy.dev
         run: make integration_test
