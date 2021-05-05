@@ -5,16 +5,21 @@ from src.masonite.js_routes.routes import Routes as JsRoutes
 from src.masonite.js_routes.config.js_routes import FILTERS
 
 all_expected_routes = {
-    "home": {"uri": "home", "methods": ["GET"]},
-    "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
-    "posts.store": {"uri": "posts", "methods": ["POST"]},
-    "posts.index": {"uri": "posts", "methods": ["GET"]},
-    "postComments.index": {"uri": "posts/{post}/comments", "methods": ["GET"]},
+    "home": {"uri": "home", "methods": ["GET"], "bindings": {}},
+    "posts.show": {"uri": "posts/{post}", "methods": ["GET"], "bindings": {}},
+    "posts.store": {"uri": "posts", "methods": ["POST"], "bindings": {}},
+    "posts.index": {"uri": "posts", "methods": ["GET"], "bindings": {}},
+    "postComments.index": {
+        "uri": "posts/{post}/comments",
+        "methods": ["GET"],
+        "bindings": {},
+    },
     "postComments.show": {
         "uri": "posts/{post}/comments/{comment}",
         "methods": ["GET"],
+        "bindings": {},
     },
-    "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
+    "admin.users.index": {"uri": "admin/users", "methods": ["GET"], "bindings": {}},
 }
 
 FILTERS = {"only": [], "except": [], "groups": {}}
@@ -51,9 +56,9 @@ class TestRoutes(TestCase):
         js_routes = JsRoutes()
         routes = js_routes.filter_routes(["posts.s*", "home"])
         expected = {
-            "home": {"uri": "home", "methods": ["GET"]},
-            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "posts", "methods": ["POST"]},
+            "home": {"uri": "home", "methods": ["GET"], "bindings": {}},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"], "bindings": {}},
+            "posts.store": {"uri": "posts", "methods": ["POST"], "bindings": {}},
         }
         self.assertEqual(expected, routes)
 
@@ -61,11 +66,16 @@ class TestRoutes(TestCase):
         js_routes = JsRoutes()
         routes = js_routes.filter_routes(["posts.s*", "home", "admin.*"], False)
         expected = {
-            "posts.index": {"uri": "posts", "methods": ["GET"]},
-            "postComments.index": {"uri": "posts/{post}/comments", "methods": ["GET"]},
+            "posts.index": {"uri": "posts", "methods": ["GET"], "bindings": {}},
+            "postComments.index": {
+                "uri": "posts/{post}/comments",
+                "methods": ["GET"],
+                "bindings": {},
+            },
             "postComments.show": {
                 "uri": "posts/{post}/comments/{comment}",
                 "methods": ["GET"],
+                "bindings": {},
             },
         }
 
@@ -78,9 +88,9 @@ class TestRoutes(TestCase):
         self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes().to_dict()["routes"]
         expected = {
-            "home": {"uri": "home", "methods": ["GET"]},
-            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "posts", "methods": ["POST"]},
+            "home": {"uri": "home", "methods": ["GET"], "bindings": {}},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"], "bindings": {}},
+            "posts.store": {"uri": "posts", "methods": ["POST"], "bindings": {}},
         }
         self.assertEqual(expected, routes)
 
@@ -91,13 +101,22 @@ class TestRoutes(TestCase):
         self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes().to_dict()["routes"]
         expected = {
-            "posts.index": {"uri": "posts", "methods": ["GET"]},
-            "postComments.index": {"uri": "posts/{post}/comments", "methods": ["GET"]},
+            "posts.index": {"uri": "posts", "methods": ["GET"], "bindings": {}},
+            "postComments.index": {
+                "uri": "posts/{post}/comments",
+                "methods": ["GET"],
+                "bindings": {},
+            },
             "postComments.show": {
                 "uri": "posts/{post}/comments/{comment}",
                 "methods": ["GET"],
+                "bindings": {},
             },
-            "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
+            "admin.users.index": {
+                "uri": "admin/users",
+                "methods": ["GET"],
+                "bindings": {},
+            },
         }
         self.assertEqual(expected, routes)
 
@@ -116,8 +135,8 @@ class TestRoutes(TestCase):
         self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes("posts").to_dict()["routes"]
         expected = {
-            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "posts", "methods": ["POST"]},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"], "bindings": {}},
+            "posts.store": {"uri": "posts", "methods": ["POST"], "bindings": {}},
         }
         self.assertEqual(expected, routes)
 
@@ -128,9 +147,13 @@ class TestRoutes(TestCase):
         self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes(["posts", "admin"]).to_dict()["routes"]
         expected = {
-            "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
-            "posts.store": {"uri": "posts", "methods": ["POST"]},
-            "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
+            "posts.show": {"uri": "posts/{post}", "methods": ["GET"], "bindings": {}},
+            "posts.store": {"uri": "posts", "methods": ["POST"], "bindings": {}},
+            "admin.users.index": {
+                "uri": "admin/users",
+                "methods": ["GET"],
+                "bindings": {},
+            },
         }
         self.assertEqual(expected, routes)
 

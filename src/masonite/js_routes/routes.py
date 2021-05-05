@@ -20,7 +20,7 @@ def convert_uri(uri):
             uri = uri.replace(hint, "")
     url = re.sub(r"(@[\w]*)", r"{\1}", uri).replace("@", "")
     # remove leading slash already added by ziggy-js
-    if url.startswith("/"):
+    if url.startswith("/") and not url == "/":
         url = url[1:]
     return url
 
@@ -63,7 +63,7 @@ class Routes(object):
                 data = {
                     "uri": convert_uri(route.url),
                     "methods": list(map(lambda m: m.upper(), route.request_method)),
-                    "bindings": {},
+                    "bindings": {},  # not implemented for now
                 }
                 if route._domain:
                     data["domain"] = route._domain

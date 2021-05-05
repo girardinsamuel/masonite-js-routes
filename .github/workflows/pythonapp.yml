@@ -63,9 +63,7 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install .
-      - name: Generate routes file
+      - name: Run integration test
         env:
           APP_URL: https://ziggy.dev/
-        run: python craft js_routes:generate -p tests/js/routes.js
-      - name: Run javascript tests
-        run: npm test
+        run: make integration_test
