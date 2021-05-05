@@ -16,7 +16,11 @@
 
 ## Introduction
 
-Use your Masonite named routes in Javascript
+Use your Masonite named routes in Javascript.
+
+This package provides a helper that inject your Masonite application routes definition into your views. It will export a JavaScript object of your application's named routes, keyed by their names (aliases).
+
+You can combine it with [ziggy-js](https://github.com/tighten/ziggy) library as to get a global `route()` helper function which you can use to access your routes in your JavaScript.
 
 ## Features
 
@@ -41,19 +45,19 @@ pip install masonite-js-routes
 
 ## Configuration
 
-Add MasoniteJSRoutesProvider to your project in `config/providers.py`:
+Add JSRoutesProvider to your project in `config/providers.py`:
 
 ```python
 # config/providers.py
 # ...
-from masonite.js_routes import MasoniteJSRoutesProvider
+from masonite.js_routes import JSRoutesProvider
 
 # ...
 PROVIDERS = [
     # ...
 
     # Third Party Providers
-    MasoniteJSRoutesProvider,
+    JSRoutesProvider,
 
     # ...
 ]
@@ -68,12 +72,166 @@ python craft js_routes:install
 OR (depending on your preferences)
 
 ```bash
-python craft publish MasoniteJSRoutesProvider
+python craft publish JSRoutesProvider
 ```
 
 ## Usage
 
-_Explain how to use your package_
+1. [Using `routes` view helper](#1.-using-routes-view-helper): routes will be generated at each request and included client-side in the page.
+2. [Generating routes as Javascript file](#2.-generating-routes-as-javascript-file): routes are generated once in a file and you load this file client-side. When you update your routes, you must regenerate the file.
+
+### 1. Using `routes` view helper
+
+1. In your views, just add this helper where you want to get `Ziggy` routes as a Javascript object (e.g. in `<head></head>` or at the end of body).
+
+```html
+{{ routes() }}
+```
+
+#### Basic filtering
+
+Only the routes matching a list of name patterns will be included:
+
+```python
+FILTERS = {
+    "only": ["welcome.*"],
+}
+```
+
+Only the routes which does not match a list of name patterns will be included:
+
+```python
+FILTERS = {
+    "except": ["admin.*"],
+}
+```
+
+**Note: You have to choose one or the other. Setting both `only` and `except` will disable filtering altogether and simply return the default list of routes.**
+
+#### Filtering using Groups
+
+Only the routes matching a group or a list of groups will be included if
+groups are passed to the helpers
+
+```python
+FILTERS = {
+    "groups": {
+        "app": ["app.*"],
+        "api": ["api.*"],
+    }
+}
+```
+
+and in your view :
+
+```html
+{{ routes('app') }}
+```
+
+or a list of group names
+
+```html
+{{ routes(['app', 'api']) }}
+```
+
+**Note: Passing group names to the `routes` helper will always take precedence over your other only or except settings.**
+
+### 2. Generating routes as Javascript file
+
+You can also generate once the routes as a Javascript file. For now it generates a file exporting
+`Ziggy` object routes as it is made to use it with `ziggy-js`.
+
+To generate the routes, run the craft command (it takes an optional `--path` argument to change the output path):
+
+```bash
+python craft js_routes:generate
+```
+
+(You could add this into a pipeline, to regenerate it whenever needed).
+
+You will get a file like this:
+
+```js
+var Ziggy = {
+  routes: {
+    home: { uri: "", methods: ["GET", "HEAD"], domain: null },
+    login: { uri: "login", methods: ["GET", "HEAD"], domain: null },
+  },
+  url: "http://ziggy.test",
+  port: null,
+  defaults: {},
+};
+
+export { Ziggy };
+```
+
+## Client-side usage
+
+Then to be able to use it client-side you can refer to [ziggy-js documentation](https://github.com/tighten/ziggy#advanced-setup).
+(Note that you don't have to use this library you can use the routes objects as you like.)
+
+### Quick explanation with Vue.js
+
+Install the library:
+
+```bash
+npm install ziggy-js
+```
+
+Then in your Vue.js entrypoint you could for example define a global `route()` mixin (using the `route()` method from `ziggy-js`).
+
+- With the **option 1**, `Ziggy` will be available in the global javascript `window` scope
+
+```javascript
+// app.js
+import { createApp, h } from "vue";
+import route from "ziggy-js";
+
+import App from "./App.vue";
+
+const app = createApp(App).mixin({
+  methods: {
+    route(name, params = {}, absolute = true) {
+      return route(name, params, absolute, window.Ziggy);
+    },
+  },
+});
+
+// App.vue
+// ...
+this.route("users", 2); // == http://ziggy.test/users/2
+```
+
+- With the **option 2**, the routes config must be imported from the generated file (instead of the `window` object)
+
+```javascript
+// app.js
+import { createApp, h } from "vue";
+import route from "ziggy-js";
+import { Ziggy } from "./routes";
+
+import App from "./App.vue";
+
+const app = createApp(App).mixin({
+  methods: {
+    route(name, params = {}, absolute = true) {
+      return route(name, params, absolute, Ziggy);
+    },
+  },
+});
+
+// App.vue
+// ...
+this.route("users", 2); // == http://ziggy.test/users/2
+```
+
+## Content Security Policy
+
+A Content Security Policy may block unsafe inline scripts which Ziggy uses to pass the routes to JavaScript. By adding a nonce to your CSP you can allow certain inlined scripts. To add this nonce to Ziggy you can pass it as the second argument to the helper:
+
+```html
+{{ routes(false, '[YOUR_NONCE]') }}
+```
 
 ## Contributing
 
