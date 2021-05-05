@@ -9,8 +9,13 @@ init: ## Install package dependencies
 	pip install -r requirements.txt
 	# install package and dev dependencies (see setup.py)
 	pip install '.[dev]'
+init_integrations: ## Install frontend dependencies for integration tests
+	npm install
 test: ## Run package tests
 	python -m pytest tests
+integration_test:  ## Run package integration tests
+	python craft js_routes:generate -p tests/js/routes.js
+	npm test
 ci: ## [CI] Run package tests and lint
 	make test
 	make lint

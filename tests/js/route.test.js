@@ -37,7 +37,10 @@ beforeEach(() => {
 });
 
 describe('route()', () => {
+  test('can return base URL if path is "/"', () => {
+    same(route('home'), 'https://ziggy.dev');
+  });
   test('can generate a URL with no parameters', () => {
-    same(route('welcome'), 'https://ziggy.dev/');
+    same(route('posts.index'), 'https://ziggy.dev/posts');
   })
 });

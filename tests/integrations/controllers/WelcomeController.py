@@ -9,3 +9,9 @@ class WelcomeController(Controller):
 
     def show(self, view: View):
         return view.render("base")
+
+    def posts(self, view: View):
+        return "posts"
+
+    def show_post(self, view: View):
+        return "show_post"

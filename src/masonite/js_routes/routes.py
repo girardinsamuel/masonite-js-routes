@@ -63,6 +63,7 @@ class Routes(object):
                 data = {
                     "uri": convert_uri(route.url),
                     "methods": list(map(lambda m: m.upper(), route.request_method)),
+                    "bindings": {},
                 }
                 if route._domain:
                     data["domain"] = route._domain
