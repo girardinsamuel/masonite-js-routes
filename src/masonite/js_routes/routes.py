@@ -3,7 +3,7 @@ import os
 import re
 from urllib.parse import urlsplit
 
-from masonite.utils.structures import config
+from masonite.utils.structures import load
 
 from .helpers import matches
 
@@ -38,7 +38,10 @@ class Routes(object):
 
     def _config(self, key, default=False):
         """Get configuration key of the package more easily"""
-        return config("js_routes.filters.{0}".format(key), default)
+        from wsgi import application
+
+        filters_config = load(application.make("config.js_routes")).FILTERS
+        return filters_config.get(key, default)
 
     def parse_base_url(self):
         url_object = urlsplit(self.base_url)
@@ -102,9 +105,6 @@ class Routes(object):
         else:
             # @josephmancuso it should work config("js_routes.filters.groups.welcome")
             groups_filters = groups.get(group, [])
-            import pdb
-
-            pdb.set_trace()
             if groups_filters:
                 return self.filter_routes(groups_filters)
         return self.routes

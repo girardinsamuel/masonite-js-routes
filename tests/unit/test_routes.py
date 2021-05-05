@@ -17,6 +17,8 @@ all_expected_routes = {
     "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
 }
 
+FILTERS = {"only": [], "except": [], "groups": {}}
+
 
 class TestRoutes(TestCase):
     def setUp(self):
@@ -34,6 +36,11 @@ class TestRoutes(TestCase):
             Route.post("posts", "TestController@show").name("posts.store"),
             Route.get("admin/users", "TestController@show").name("admin.users.index"),
         )
+        self.original_config = self.application.make("config.js_routes")
+
+    def tearDown(self):
+        super().tearDown()
+        self.application.bind("config.js_routes", self.original_config)
 
     def test_basic_routes_generation(self):
         js_routes = JsRoutes()
@@ -65,8 +72,10 @@ class TestRoutes(TestCase):
         self.assertEqual(expected, routes)
 
     def test_can_set_included_routes_using_only_config(self):
-        FILTERS["except"] = []
         FILTERS["only"] = ["posts.s*", "home"]
+        FILTERS["except"] = []
+        FILTERS["groups"] = []
+        self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes().to_dict()["routes"]
         expected = {
             "home": {"uri": "home", "methods": ["GET"]},
@@ -76,8 +85,10 @@ class TestRoutes(TestCase):
         self.assertEqual(expected, routes)
 
     def test_can_set_included_routes_using_except_config(self):
-        FILTERS["only"] = []
         FILTERS["except"] = ["posts.s*", "home"]
+        FILTERS["only"] = []
+        FILTERS["groups"] = []
+        self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes().to_dict()["routes"]
         expected = {
             "posts.index": {"uri": "posts", "methods": ["GET"]},
@@ -93,37 +104,42 @@ class TestRoutes(TestCase):
     def test_returns_unfiltered_routes_when_both_only_and_except_configs_set(self):
         FILTERS["except"] = ["posts.s*", "home"]
         FILTERS["only"] = ["some.other.routes"]
-
+        FILTERS["groups"] = []
+        self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes().to_dict()["routes"]
         self.assertEqual(all_expected_routes, routes)
 
     def test_can_set_included_routes_using_groups_config(self):
         FILTERS["groups"] = {"posts": ["posts.s*"]}
+        FILTERS["only"] = []
+        FILTERS["except"] = []
+        self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes("posts").to_dict()["routes"]
         expected = {
             "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
             "posts.store": {"uri": "posts", "methods": ["POST"]},
         }
-        import pdb
-
-        pdb.set_trace()
         self.assertEqual(expected, routes)
 
     def test_can_set_included_routes_using_groups_array_config(self):
         FILTERS["groups"] = {"posts": ["posts.s*"], "admin": ["admin.*"]}
+        FILTERS["only"] = []
+        FILTERS["except"] = []
+        self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes(["posts", "admin"]).to_dict()["routes"]
         expected = {
             "posts.show": {"uri": "posts/{post}", "methods": ["GET"]},
             "posts.store": {"uri": "posts", "methods": ["POST"]},
             "admin.users.index": {"uri": "admin/users", "methods": ["GET"]},
         }
-        import pdb
-
-        pdb.set_trace()
         self.assertEqual(expected, routes)
 
     def can_ignore_passed_group_not_set_in_config(self):
         FILTERS["groups"] = {"posts": ["posts.s*"]}
+        FILTERS["only"] = []
+        FILTERS["except"] = []
+
+        self.application.bind("config.js_routes", "tests.unit.test_routes")
         routes = JsRoutes(["unknown_group"]).to_dict()["routes"]
         self.assertEqual(all_expected_routes, routes)
 
