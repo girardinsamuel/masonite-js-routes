@@ -7,19 +7,22 @@ init: ## Install package dependencies
 	pip install --upgrade pip
 	# install test project and package dependencies
 	pip install -r requirements.txt
-	# install package
-	pip install .
-	# install dev dependencies (see setup.py)
-	pip install "masonite-js-routes[test,dev]"
+	# install package and dev dependencies (see setup.py)
+	pip install '.[dev]'
+init_integrations: ## Install frontend dependencies for integration tests
+	npm install
 test: ## Run package tests
 	python -m pytest tests
+integration_test:  ## Run package integration tests
+	python craft js_routes:generate -p tests/js/routes.js
+	npm test
 ci: ## [CI] Run package tests and lint
 	make test
 	make lint
 lint: ## Run code linting
-	python -m flake8 src/masonite/js_routes/ --ignore=E501,F401,E128,E402,E731,F821,E712,W503
+	python -m flake8 .
 format: ## Format code with Black
-	black src/masonite/js_routes
+	black .
 coverage: ## Run package tests and upload coverage reports
 	python -m pytest --cov-report term --cov-report xml --cov=src/masonite/js_routes tests
 publish: ## Publish package to pypi

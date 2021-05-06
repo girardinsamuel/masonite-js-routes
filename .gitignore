@@ -14,3 +14,6 @@ dist
 .env
 *.db
 masonite.egg-info
+
+# JS tests
+node_modules/

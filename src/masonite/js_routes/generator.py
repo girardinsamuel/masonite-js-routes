@@ -2,7 +2,7 @@ from jinja2 import Markup
 from .routes import Routes
 
 
-class RoutesGenerator(object):
+class RoutesGenerator:
     def generate(self, group=None, nonce=""):
         payload = Routes(group).to_json()
         return self._generate_base_js(payload, nonce)
