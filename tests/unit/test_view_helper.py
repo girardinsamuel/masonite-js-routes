@@ -28,9 +28,7 @@ class TestViewHelper(TestCase):
             Route.get("home", "TestController@show").name("home"),
             Route.get("posts", "TestController@show").name("posts.index"),
             Route.get("posts/@post", "TestController@show").name("posts.show"),
-            Route.get("posts/@post/comments", "TestController@show").name(
-                "postComments.index"
-            ),
+            Route.get("posts/@post/comments", "TestController@show").name("postComments.index"),
             Route.get("posts/@post/comments/@comment:int", "TestController@show").name(
                 "postComments.show"
             ),
@@ -48,7 +46,3 @@ class TestViewHelper(TestCase):
     #     FILTERS["only"] = ["home"]
     #     generator = RoutesGenerator()
     #     markup = generator.generate()
-    #     import pdb
-    #     pdb.set_trace()
-    #     self.assertEqual("<script type=\"text/javascript\">var Ziggy = {'baseUrl': '/', 'baseProtocol': '', 'baseDomain': '', 'basePort': null, 'defaultParameters': [], 'namedRoutes': {'home': {'uri': '/home', 'methods': ['GET']}}};</script>",
-    #                      str(markup))

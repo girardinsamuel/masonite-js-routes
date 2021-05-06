@@ -69,7 +69,6 @@ setup(
     # dependencies). You can install these using the following syntax,
     # for example:
     # $ pip install -e .[dev,test]
-    # $ pip install your-package[dev,test]
     extras_require={
         "dev": [
             "black",
@@ -87,17 +86,4 @@ setup(
     package_data={
         # 'templates/index.html': [],
     },
-    # Although 'package_data' is the preferred approach, in some case you may
-    # need to place data files outside of your packages. See:
-    # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa
-    # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    ## data_files=[('my_data', ['data/data_file.txt'])],
-    # To provide executable scripts, use entry points in preference to the
-    # "scripts" keyword. Entry points provide cross-platform support and allow
-    # pip to create the appropriate form of executable for the target platform.
-    ## entry_points={
-    ##     'console_scripts': [
-    ##         'sample=sample:main',
-    ##     ],
-    ## },
 )

@@ -16,6 +16,4 @@ class InstallCommand(Command):
     def handle(self):
         # publish config files
         # create_or_append_config(os.path.join(package_directory, "config/js_routes.py"))
-        self.info(
-            "masonite-js-routes config file has been published to config/js_routes.py."
-        )
+        self.info("masonite-js-routes config file has been published to config/js_routes.py.")

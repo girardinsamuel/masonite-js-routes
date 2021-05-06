@@ -1,3 +1,4 @@
+# flake8: noqa F811
 from masonite.tests import TestCase
 from masonite.routes import Route
 
@@ -32,9 +33,7 @@ class TestRoutes(TestCase):
             Route.get("home", "TestController@show").name("home"),
             Route.get("posts", "TestController@show").name("posts.index"),
             Route.get("posts/@post", "TestController@show").name("posts.show"),
-            Route.get("posts/@post/comments", "TestController@show").name(
-                "postComments.index"
-            ),
+            Route.get("posts/@post/comments", "TestController@show").name("postComments.index"),
             Route.get("posts/@post/comments/@comment:int", "TestController@show").name(
                 "postComments.show"
             ),
