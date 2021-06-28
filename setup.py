@@ -8,7 +8,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="2.0.0",
+    version="2.0.0a",
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
@@ -61,10 +61,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=[
-        # TODO: uncomment when released
-        # "masonite>=4.0<5.0"
-    ],
+    install_requires=["masonite>=4.0<5.0"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
     # for example:
