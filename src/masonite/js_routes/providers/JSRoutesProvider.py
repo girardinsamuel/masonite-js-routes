@@ -1,6 +1,5 @@
 """A MasoniteJSRoutesProvider Service Provider."""
 from masonite.providers import Provider
-from masonite.views import View
 
 from ..commands import InstallCommand, GenerateCommand
 from ..generator import RoutesGenerator
@@ -16,18 +15,8 @@ class JSRoutesProvider(Provider):
         """Register objects into the Service Container."""
         self.application.bind("config.js_routes", "masonite.js_routes.config.js_routes")
         self.application.make("commands").add(InstallCommand(), GenerateCommand())
+        self.generator = RoutesGenerator()
 
-    def boot(self, view: View):
+    def boot(self):
         """Boots services required by the container."""
-        # self.publishes(
-        #     {os.path.join(package_directory, "config.py"): "config/js_routes.py"}
-        # )
-        self._register_routes_helper(view)
-
-    def _register_routes_helper(self, view):
-        generator = RoutesGenerator()
-
-        def js_routes_helper(group=None, nonce=""):
-            return generator.generate(group, nonce)
-
-        view.share({"routes": js_routes_helper})
+        self.application.make("view").share({"routes": self.generator.generate})

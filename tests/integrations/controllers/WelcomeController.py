@@ -13,5 +13,11 @@ class WelcomeController(Controller):
     def posts(self, view: View):
         return "posts"
 
+    def create_post(self):
+        return 201
+
     def show_post(self, view: View):
         return "show_post"
+
+    def show_post_comments(self):
+        return 200

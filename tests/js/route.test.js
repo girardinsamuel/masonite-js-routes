@@ -8,21 +8,6 @@ const defaultWindow = {
   },
 };
 
-const defaultZiggy = {
-    url: 'https://ziggy.dev',
-    port: null,
-    defaults: { locale: 'en' },
-    routes: {
-        'home': {
-            uri: '/',
-            methods: ['GET', 'HEAD'],
-        },
-        'posts.index': {
-            uri: 'posts',
-            methods: ['GET', 'HEAD'],
-        },
-    },
-};
 
 beforeAll(() => {
   delete window.location;
@@ -32,7 +17,6 @@ beforeAll(() => {
 beforeEach(() => {
   window.location = { ...defaultWindow.location };
   global.window.location = { ...defaultWindow.location };
-  // global.Ziggy = { ...defaultZiggy };
   global.Ziggy = { ...Ziggy };
 });
 
@@ -42,5 +26,11 @@ describe('route()', () => {
   });
   test('can generate a URL with no parameters', () => {
     same(route('posts.index'), 'https://ziggy.dev/posts');
+  });
+  test('can generate a URL with one parameters', () => {
+    same(route('posts.show', 1), 'https://ziggy.dev/posts/1');
+  })
+  test('can generate a URL with multiple named parameters', () => {
+    same(route('posts.comments.show', {post_id: 1, id: 2}), 'https://ziggy.dev/posts/1/comments/2');
   })
 });
