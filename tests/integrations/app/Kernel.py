@@ -26,7 +26,6 @@ class Kernel:
         self.register_configurations()
         self.register_routes()
         self.register_middleware()
-        self.register_database()
         self.register_controllers()
         self.register_templates()
         self.register_storage()
@@ -74,23 +73,6 @@ class Kernel:
 
     def register_templates(self):
         self.application.bind("views.location", "tests/integrations/templates")
-
-    def register_database(self):
-        from masoniteorm.query import QueryBuilder
-
-        self.application.bind(
-            "builder",
-            QueryBuilder(
-                connection_details=load(self.application.make("config.database")).DATABASES
-            ),
-        )
-
-        self.application.bind("migrations.location", "tests/integrations/databases/migrations")
-        self.application.bind("seeds.location", "tests/integrations/databases/seeds")
-
-        from config.database import DB
-
-        self.application.bind("resolver", DB)
 
     def register_storage(self):
         storage = StorageCapsule(self.application.base_path)
