@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Cache npm dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.npm
           key: npm-${{ hashFiles('**/package-lock.json') }}
@@ -58,11 +58,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Install python package
+      - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install .
+          make init
       - name: Run integration test
         env:
           APP_URL: https://ziggy.dev
