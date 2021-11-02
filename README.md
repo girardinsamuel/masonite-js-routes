@@ -63,16 +63,10 @@ PROVIDERS = [
 ]
 ```
 
-Then install OR publish the required package files (configuration, views ...):
+Then you can publish the configuration file in your project if you need to change some parameters:
 
 ```bash
-python craft js_routes:install
-```
-
-OR (depending on your preferences)
-
-```bash
-python craft publish JSRoutesProvider
+python craft package:publish js_routes
 ```
 
 ## Usage
