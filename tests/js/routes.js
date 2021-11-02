@@ -1,0 +1,3 @@
+var Ziggy = {"url": "https://ziggy.dev", "port": null, "defaults": {}, "routes": {"home": {"uri": "/", "methods": ["GET"], "bindings": {}, "middleware": ["web"]}, "posts.index": {"uri": "posts", "methods": ["GET"], "bindings": {}, "middleware": ["web"]}, "posts.create": {"uri": "posts", "methods": ["POST"], "bindings": {}, "middleware": ["web"]}, "posts.show": {"uri": "posts/{id}", "methods": ["GET"], "bindings": {}, "middleware": ["web"]}, "posts.comments.show": {"uri": "posts/{post_id}/comments/{id}", "methods": ["GET"], "bindings": {}, "middleware": ["web"]}}};
+
+export { Ziggy };

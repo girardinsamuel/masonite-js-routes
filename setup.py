@@ -8,10 +8,11 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="1.0.0",
+    version="2.0.0",
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
+        "masonite.js_routes.config",
         "masonite.js_routes.commands",
     ],
     package_dir={"": "src"},
@@ -45,10 +46,10 @@ setup(
         "Operating System :: OS Independent",
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Internet :: WWW/HTTP :: WSGI",
@@ -56,22 +57,26 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     # What does your project relate to?
-    keywords="Masonite, Python, Emails, Debug, Development",
+    keywords="Masonite, Python, Development",
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=[
-        # 'pypi-package>=1.7.1,<1.8'
-    ],
+    install_requires=["masonite>=4.0<5.0"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
     # for example:
     # $ pip install -e .[dev,test]
-    # $ pip install your-package[dev,test]
     extras_require={
-        "test": ["coverage", "pytest", "pytest-cov", "coveralls"],
-        "dev": ["black", "flake8", "twine>=1.5.0", "wheel"],
+        "dev": [
+            "black",
+            "flake8",
+            "coverage",
+            "pytest",
+            "pytest-cov",
+            "twine>=1.5.0",
+            "wheel",
+        ],
     },
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
@@ -79,17 +84,4 @@ setup(
     package_data={
         # 'templates/index.html': [],
     },
-    # Although 'package_data' is the preferred approach, in some case you may
-    # need to place data files outside of your packages. See:
-    # http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa
-    # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    ## data_files=[('my_data', ['data/data_file.txt'])],
-    # To provide executable scripts, use entry points in preference to the
-    # "scripts" keyword. Entry points provide cross-platform support and allow
-    # pip to create the appropriate form of executable for the target platform.
-    ## entry_points={
-    ##     'console_scripts': [
-    ##         'sample=sample:main',
-    ##     ],
-    ## },
 )

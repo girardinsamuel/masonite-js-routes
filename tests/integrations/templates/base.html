@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masonite | Welcome</title>
+  </head>
+  <body>
+    <h1>Hello Package World</h1>
+    <p>
+      This is a test project for developing your package:
+      <strong>masonite-js-routes</strong>
+    </p>
+    {{ routes() }}
+    <pre id="routes-container" style="max-width: 80%; white-space: pre-wrap;">
+
+    </pre>
+    <script defer src="https://unpkg.com/ziggy-js/dist/index.js"></script>
+    <script>
+      document.getElementById("routes-container").innerText = JSON.stringify(window.Ziggy)
+    </script>
+  </body>
+</html>

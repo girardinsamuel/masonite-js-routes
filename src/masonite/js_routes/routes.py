@@ -1,9 +1,10 @@
 import json
+import os
 import re
 from urllib.parse import urlsplit
-from masonite.helpers import config
-from masonite.helpers.routes import flatten_routes
-from masonite import env
+
+from masonite.configuration import config
+
 from .helpers import matches
 
 
@@ -19,7 +20,7 @@ def convert_uri(uri):
             uri = uri.replace(hint, "")
     url = re.sub(r"(@[\w]*)", r"{\1}", uri).replace("@", "")
     # remove leading slash already added by ziggy-js
-    if url.startswith("/"):
+    if url.startswith("/") and not url == "/":
         url = url[1:]
     return url
 
@@ -29,15 +30,11 @@ class Routes(object):
         self.base_domain = ""
         self.base_port = None
         self.base_protocol = "http"
-        self.base_url = env("APP_URL")
+        self.base_url = os.getenv("APP_URL").rstrip("/")
         self.parse_base_url()
 
         self.group = group
         self.routes = self.get_named_routes()
-
-    def _config(self, key, default=False):
-        """Get configuration key of the package more easily"""
-        return config("js_routes.filters.{0}".format(key), default)
 
     def parse_base_url(self):
         url_object = urlsplit(self.base_url)
@@ -49,26 +46,23 @@ class Routes(object):
 
     def get_named_routes(self):
         """Get a list of the application's named routes, keyed by their names."""
-        from wsgi import container
+        from wsgi import application
 
-        web_routes = container.make("WebRoutes")
+        app_routes = application.make("router").routes
         routes = {}
-        for route in flatten_routes(web_routes):
-            if route.named_route:
-                routes.update(
-                    {
-                        route.named_route: {
-                            "uri": convert_uri(route.route_url),
-                            "methods": route.method_type,
-                        }
-                    }
-                )
-                if route.required_domain:
-                    routes[route.named_route].update({"domain": route.required_domain})
-                if route.list_middleware:
-                    routes[route.named_route].update(
-                        {"middleware": route.list_middleware}
-                    )
+        for route in app_routes:
+            name = route.get_name()
+            if name:
+                data = {
+                    "uri": convert_uri(route.url),
+                    "methods": list(map(lambda m: m.upper(), route.request_method)),
+                    "bindings": {},  # not implemented for now
+                }
+                if route._domain:
+                    data["domain"] = route._domain
+                # if route.list_middleware:
+                #     data["middleware"] = route.list_middleware
+                routes.update({name: data})
 
         return routes
 
@@ -77,34 +71,32 @@ class Routes(object):
             return self.filter_by_groups(group)
 
         # return unfiltered routes if user set both config options.
-        if self._config("except") and self._config("only"):
+        if config("js_routes.filters.except") and config("js_routes.filters.only"):
             return self.routes
 
-        if self._config("except"):
+        if config("js_routes.filters.except"):
             return self.except_routes()
 
-        if self._config("only"):
+        if config("js_routes.filters.only"):
             return self.only_routes()
 
         return self.routes
 
     def except_routes(self):
-        return self.filter_routes(self._config("except"), False)
+        return self.filter_routes(config("js_routes.filters.except"), False)
 
     def only_routes(self):
-        return self.filter_routes(self._config("only"))
+        return self.filter_routes(config("js_routes.filters.only"))
 
     def filter_by_groups(self, group):
         """Filters routes by group"""
-        groups = self._config("groups")
+        groups = config("js_routes.filters.groups", {})
         if isinstance(group, list):
             filters = []
             for group_name in group:
                 filters += groups.get(group_name, [])
             return self.filter_routes(filters)
         else:
-            # @josephmancuso it should work config("js_routes.filters.groups.welcome")
-            groups = self._config("groups")
             groups_filters = groups.get(group, [])
             if groups_filters:
                 return self.filter_routes(groups_filters)

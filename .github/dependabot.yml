@@ -1,7 +1,3 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-
 version: 2
 updates:
   # Maintain dependencies for GitHub Actions
@@ -9,18 +5,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    labels:
-      - "build"
-    # Allow up to 10 open pull requests for npm dependencies
-    open-pull-requests-limit: 10
 
-  # Maintain dependencies for pip
+  # Maintain dependencies for cookiecutter repo
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "daily"
-    labels:
-      - "build"
-    target-branch: master
+      interval: "weekly"
     # Allow up to 10 open pull requests for pip dependencies
     open-pull-requests-limit: 10
