@@ -12,6 +12,7 @@ setup(
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
+        "masonite.js_routes.config",
         "masonite.js_routes.commands",
     ],
     package_dir={"": "src"},

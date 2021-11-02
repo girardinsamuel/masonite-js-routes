@@ -3,7 +3,7 @@ import os
 import re
 from urllib.parse import urlsplit
 
-from masonite.utils.structures import load
+from masonite.configuration import config
 
 from .helpers import matches
 
@@ -36,13 +36,6 @@ class Routes(object):
         self.group = group
         self.routes = self.get_named_routes()
 
-    def _config(self, key, default=False):
-        """Get configuration key of the package more easily"""
-        from wsgi import application
-
-        filters_config = load(application.make("config.js_routes")).FILTERS
-        return filters_config.get(key, default)
-
     def parse_base_url(self):
         url_object = urlsplit(self.base_url)
         self.base_protocol = url_object.scheme
@@ -67,8 +60,8 @@ class Routes(object):
                 }
                 if route._domain:
                     data["domain"] = route._domain
-                if route.list_middleware:
-                    data["middleware"] = route.list_middleware
+                # if route.list_middleware:
+                #     data["middleware"] = route.list_middleware
                 routes.update({name: data})
 
         return routes
@@ -78,33 +71,32 @@ class Routes(object):
             return self.filter_by_groups(group)
 
         # return unfiltered routes if user set both config options.
-        if self._config("except") and self._config("only"):
+        if config("js_routes.filters.except") and config("js_routes.filters.only"):
             return self.routes
 
-        if self._config("except"):
+        if config("js_routes.filters.except"):
             return self.except_routes()
 
-        if self._config("only"):
+        if config("js_routes.filters.only"):
             return self.only_routes()
 
         return self.routes
 
     def except_routes(self):
-        return self.filter_routes(self._config("except"), False)
+        return self.filter_routes(config("js_routes.filters.except"), False)
 
     def only_routes(self):
-        return self.filter_routes(self._config("only"))
+        return self.filter_routes(config("js_routes.filters.only"))
 
     def filter_by_groups(self, group):
         """Filters routes by group"""
-        groups = self._config("groups", {})
+        groups = config("js_routes.filters.groups", {})
         if isinstance(group, list):
             filters = []
             for group_name in group:
                 filters += groups.get(group_name, [])
             return self.filter_routes(filters)
         else:
-            # @josephmancuso it should work config("js_routes.filters.groups.welcome")
             groups_filters = groups.get(group, [])
             if groups_filters:
                 return self.filter_routes(groups_filters)

@@ -1,11 +1,10 @@
 from masonite.foundation import Application, Kernel
+
 from tests.integrations.config.providers import PROVIDERS
-import os
-
-from tests.integrations.app.Kernel import Kernel as ApplicationKernel
+from tests.integrations.Kernel import Kernel as ApplicationKernel
 
 
-application = Application(os.getcwd())
+application = Application("tests/integrations")
 
 """First Bind important providers needed to start the server
 """

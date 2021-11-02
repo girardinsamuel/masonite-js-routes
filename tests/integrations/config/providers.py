@@ -13,6 +13,7 @@ from masonite.providers import (
     HelpersProvider,
     BroadcastProvider,
     AuthenticationProvider,
+    AuthorizationProvider,
 )
 
 # register local package
@@ -34,4 +35,5 @@ PROVIDERS = [
     StorageProvider,
     BroadcastProvider,
     AuthenticationProvider,
+    AuthorizationProvider,
 ]
