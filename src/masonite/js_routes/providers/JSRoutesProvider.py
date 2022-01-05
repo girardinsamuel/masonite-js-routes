@@ -10,7 +10,7 @@ class JSRoutesProvider(PackageProvider):
 
     def configure(self):
         """Register objects into the Service Container."""
-        self.root("src/masonite/js_routes").name("js_routes").config(
+        self.root("masonite/js_routes").name("js_routes").config(
             "config/js_routes.py", publish=True
         )
         self.application.make("commands").add(GenerateCommand())
