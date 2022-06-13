@@ -71,6 +71,8 @@ python craft package:publish js_routes
 
 ## Usage
 
+⚠️ The routes must have a name, else the package won't pick up your routes ! Ensure you're using `Route.get()...name("some_name")`.
+
 1. [Using `routes` view helper](#1.-using-routes-view-helper): routes will be generated at each request and included client-side in the page.
 2. [Generating routes as Javascript file](#2.-generating-routes-as-javascript-file): routes are generated once in a file and you load this file client-side. When you update your routes, you must regenerate the file.
 
