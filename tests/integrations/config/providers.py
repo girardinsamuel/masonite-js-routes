@@ -25,6 +25,9 @@ from masonite.validation.providers import ValidationProvider
 
 from tests.integrations.app.providers import AppProvider
 
+# register local package
+from src.masonite.js_routes import JSRoutesProvider
+
 PROVIDERS = [
     FrameworkProvider,
     HelpersProvider,
@@ -46,5 +49,6 @@ PROVIDERS = [
     ValidationProvider,
     AuthorizationProvider,
     ORMProvider,
+    JSRoutesProvider,
     AppProvider,
 ]
