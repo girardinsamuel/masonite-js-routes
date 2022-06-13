@@ -1,6 +1,6 @@
 from masonite.tests import TestCase
 from masonite.routes import Route
-from jinja2 import Markup
+from markupsafe import Markup
 
 from src.masonite.js_routes.generator import RoutesGenerator
 
