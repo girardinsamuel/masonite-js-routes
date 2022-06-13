@@ -8,7 +8,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="2.0.2",
+    version="2.0.4",
     packages=[
         "masonite.js_routes",
         "masonite.js_routes.providers",
@@ -55,6 +55,7 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: WSGI",
         "Topic :: Software Development :: Libraries :: Application Frameworks",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Framework :: Masonite",
     ],
     # What does your project relate to?
     keywords="Masonite, Python, Development",
