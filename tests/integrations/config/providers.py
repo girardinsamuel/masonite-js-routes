@@ -14,26 +14,37 @@ from masonite.providers import (
     BroadcastProvider,
     AuthenticationProvider,
     AuthorizationProvider,
+    HashServiceProvider,
+    ORMProvider,
 )
 
-# register local package
-from src.masonite.js_routes import JSRoutesProvider
+
+from masonite.scheduling.providers import ScheduleProvider
+from masonite.notification.providers import NotificationProvider
+from masonite.validation.providers import ValidationProvider
+
+from app.providers import AppProvider
 
 PROVIDERS = [
     FrameworkProvider,
     HelpersProvider,
-    JSRoutesProvider,
     RouteProvider,
     ViewProvider,
     WhitenoiseProvider,
     ExceptionProvider,
     MailProvider,
+    NotificationProvider,
     SessionProvider,
     CacheProvider,
     QueueProvider,
+    ScheduleProvider,
     EventProvider,
     StorageProvider,
     BroadcastProvider,
+    HashServiceProvider,
     AuthenticationProvider,
+    ValidationProvider,
     AuthorizationProvider,
+    ORMProvider,
+    AppProvider,
 ]
